@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sciegram/models/research_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as Quill;
 
 class EachResearchController extends GetxController {
   //For working Research Model inside of controller
-  late Rx<ResearchModel> research_model_object;
+  late var research_model_object;
+  //late Rx<ResearchModel> research_model_object;
 
   //Create Collection Referance
   final research_referance =
@@ -42,7 +44,10 @@ class EachResearchController extends GetxController {
 
   Future<void> addComment(String id, String email, String comment) async {
     try {
+      print('bura girdi');
+      print('current research id is ${id.toString()} and email is ${email} also ${comment}');
       final current_research = await research_referance.doc(id);
+      print('research is : ${current_research.id}');
       await current_research.update({
         'comments': FieldValue.arrayUnion([
           {email: comment}
@@ -50,8 +55,18 @@ class EachResearchController extends GetxController {
       });
       print('can add comment section');
     } catch (e) {
-      print('${e.toString()}');
+      print('Error happen in here ${e.toString()}');
     }
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getArticleWithIds(String id) {
+    var current_article = research_referance.doc(id).get().asStream() ;
+    // final sn = ResearchModel.readDataOne(current_article as Map<String, dynamic>);
+    //final sn = current_article as Map<String, dynamic>;
+    final some = current_article as ResearchModel;
+    //print(some.id);
+    //print(some.title);
+    return current_article;
   }
 
   //Read with article id

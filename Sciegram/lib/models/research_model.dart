@@ -26,4 +26,15 @@ class ResearchModel {
     this.time = snapshot['time'];
   }
 
+  ResearchModel.readDataOne(var snapshot){
+    this.id = snapshot.id;
+    this.email = snapshot['email'];
+    this.community = snapshot['community'];
+    this.title = snapshot['title'];
+    this.subject = snapshot['subject'];
+    this.raiting = snapshot['raiting'];
+    this.comments = snapshot['comments'];
+    this.time = snapshot['time'];
+  }
+
 }
